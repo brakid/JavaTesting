@@ -1,39 +1,44 @@
 package com.brakid.runner;
 
-import java.util.Optional;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import static java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.brakid.runner.storage.Database;
+import com.brakid.runner.types.Product;
+import com.brakid.runner.types.ShoppingCart;
 import com.brakid.runner.types.User;
 import static com.brakid.runner.utils.Utils.JSON_MAPPER;
-import com.google.common.collect.ImmutableList;
-
-import tools.jackson.core.type.TypeReference;
 
 public class Main {
     private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-
     public static void main(String[] args) throws InterruptedException {
-        ImmutableList<User> values = ImmutableList.of(new User(1l, "test@test.com"));
-        LOGGER.info("ToString(): {}", values);
+        final Database database = new Database();
+        final User user1 = database.createUser("Test", "test@test.com");
+        final User user2 = database.createUser("Test2", "me@test.com");
 
-        String json = JSON_MAPPER.writeValueAsString(values);
+        final Product product1 = database.createProduct("Earplugs", 1.23f);
+        final Product product2 = database.createProduct("Sunglasses", 10.99f);
+
+        final ShoppingCart shoppingCart1 = database.createShoppingCart(user1);
+        final ShoppingCart shoppingCart2 = database.createShoppingCart(user1);
+        final ShoppingCart shoppingCart3 = database.createShoppingCart(user2);
+
+        shoppingCart1.addProduct(product1, 1);
+        shoppingCart2.addProduct(product2, 1);
+        shoppingCart3.addProduct(product1, 1);
+        shoppingCart3.addProduct(product1, 1);
+        shoppingCart3.addProduct(product2, 2);
+
+        String json = JSON_MAPPER.writeValueAsString(database);
         LOGGER.info("JSON Serialized: {}", json);
 
-        ImmutableList<User> deserializedUsers = JSON_MAPPER.readValue(json, new TypeReference<ImmutableList<User>>() {});
-        LOGGER.info("Deserialized: {}", deserializedUsers);
+        final Database database2 = Database.load(json);
+        ShoppingCart cart = database2.getShoppingCard(user2).getFirst();
+        LOGGER.info("Shoppingcarts for user1: {}", cart);
+        LOGGER.info("Resolved: {}", cart.getProducts(database.getProducts()));
 
-        ExecutorService executor = newVirtualThreadPerTaskExecutor();
+        /*ExecutorService executor = newVirtualThreadPerTaskExecutor();
         CountDownLatch latch = new CountDownLatch(10);
         ImmutableList<Future<Optional<Integer>>> futures = 
                 ImmutableList.copyOf(
@@ -73,6 +78,6 @@ public class Main {
                                 .toList()));
 
         latch.await(2, TimeUnit.MINUTES);
-        executor.shutdown();
+        executor.shutdown();*/
     }
 }

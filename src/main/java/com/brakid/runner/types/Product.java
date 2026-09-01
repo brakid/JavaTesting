@@ -3,4 +3,4 @@ package com.brakid.runner.types;
 import lombok.extern.jackson.Jacksonized;
 
 @Jacksonized
-public record User (long id, String name, String emailAddress) {}
+public record Product(long id, String name, float price) {}

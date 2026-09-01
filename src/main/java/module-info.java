@@ -5,6 +5,7 @@ module com.brakid.runner {
     requires tools.jackson.databind;
     requires tools.jackson.datatype.guava;
     requires org.slf4j;
+    requires lombok;
     
     opens com.brakid.runner.types to tools.jackson.databind;
     
