@@ -5,14 +5,15 @@ Familiarizing myself (again) with Java modules and the exact mechanics of Java d
 ## Modules
 * which classes can my code access from libraries I use - explicit declaration (e.g Guava classes)
 * which classes can be accessed from my code - e.g from an unnamed module (stripped main-method) in the Docker JRE
-* unnamed modules & implicit classes - removing the boilderplate code for the main method, with the implications on being able to create a runnable JAR (with implicit classes there will be unnamed modules)
+* unnamed modules & implicit classes - removing the boilderplate code for the main method, with the implications on being able to create a runnable JAR
+* FatJARs containing all dependencies vs slim ones with classpath containing dependencies
 
 ## Commands
 * Load dependencies: ```mvn dependency:copy-dependencies -DincludeScope=runtime```
 * Compile: ```mvn compile```
-* Run Classes: ```java -cp "target/classes/:target/dependency/*" Main```
+* Run Classes: ```java -cp "target/classes/:target/dependency/*" com.brakid.runner.Main```
 * Package: ```mvn package```
-* Run Jar: ```java -cp "target/javarunner-1.0.jar:target/dependency/*" Main```
+* Run Jar: ```java -cp "target/javarunner-1.0.jar:target/dependency/*" com.brakid.runner.Main```
 * Run Class via Maven: ```mvn exec:exec```
 
 ### Docker/Finch:

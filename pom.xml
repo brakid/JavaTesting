@@ -6,6 +6,7 @@
   <groupId>com.brakid.runner</groupId>
   <artifactId>javarunner</artifactId>
   <version>1.0</version>
+  <packaging>jar</packaging>
 
   <name>javarunner</name>
   
@@ -105,7 +106,7 @@
             <arguments>
               <argument>-classpath</argument>
               <classpath/>
-              <argument>Main</argument>
+              <argument>com.brakid.runner.Main</argument>
             </arguments>
           </configuration>
         </plugin>

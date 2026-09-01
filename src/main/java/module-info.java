@@ -8,6 +8,7 @@ module com.brakid.runner {
     
     opens com.brakid.runner.types to tools.jackson.databind;
     
+    exports com.brakid.runner;
     exports com.brakid.runner.types;
     exports com.brakid.runner.utils;
 }
