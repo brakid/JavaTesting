@@ -5,6 +5,7 @@ Familiarizing myself (again) with Java modules and the exact mechanics of Java d
 ## Modules
 * which classes can my code access from libraries I use - explicit declaration (e.g Guava classes)
 * which classes can be accessed from my code - e.g from an unnamed module (stripped main-method) in the Docker JRE
+* unnamed modules & implicit classes - removing the boilderplate code for the main method, with the implications on being able to create a runnable JAR (with implicit classes there will be unnamed modules)
 
 ## Commands
 * Load dependencies: ```mvn dependency:copy-dependencies -DincludeScope=runtime```
