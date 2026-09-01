@@ -37,4 +37,4 @@ COPY --from=appbuilder /build/target/javarunner-1.0.jar ./app.jar
 
 USER 10001
 
-ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75.0", "-XX:+ExitOnOutOfMemoryError", "-XX:+UseCompactObjectHeaders", "-cp", "app.jar:lib/*", "com.brakid.runner.Main"]
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75.0", "-XX:+ExitOnOutOfMemoryError", "-XX:+UseCompactObjectHeaders", "--module-path", "app.jar:lib", "--module", "com.brakid.runner/com.brakid.runner.Main"]

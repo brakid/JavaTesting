@@ -12,8 +12,10 @@ Familiarizing myself (again) with Java modules and the exact mechanics of Java d
 * Load dependencies: ```mvn dependency:copy-dependencies -DincludeScope=runtime```
 * Compile: ```mvn compile```
 * Run Classes: ```java -cp "target/classes/:target/dependency/*" com.brakid.runner.Main```
+* Run Classes as modules: ```java --module-path "target/classes/:target/dependency" --module com.brakid.runner/com.brakid.runner.Main```
 * Package: ```mvn package```
 * Run Jar: ```java -cp "target/javarunner-1.0.jar:target/dependency/*" com.brakid.runner.Main```
+* Run Jar as modules: ```java --module-path "target/javarunner-1.0.jar:target/dependency" --module com.brakid.runner/com.brakid.runner.Main```
 * Run Class via Maven: ```mvn exec:exec```
 
 ### Docker/Finch:

@@ -8,8 +8,10 @@ module com.brakid.runner {
     requires lombok;
     
     opens com.brakid.runner.types to tools.jackson.databind;
+    opens com.brakid.runner.storage to tools.jackson.databind;
     
     exports com.brakid.runner;
+    exports com.brakid.runner.storage;
     exports com.brakid.runner.types;
     exports com.brakid.runner.utils;
 }

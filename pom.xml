@@ -82,7 +82,7 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.46</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
@@ -122,9 +122,10 @@
           <configuration>
             <executable>java</executable>
             <arguments>
-              <argument>-classpath</argument>
-              <classpath/>
-              <argument>com.brakid.runner.Main</argument>
+              <argument>--module-path</argument>
+              <modulepath/> 
+              <argument>--module</argument>
+              <argument>com.brakid.runner/com.brakid.runner.Main</argument>
             </arguments>
           </configuration>
         </plugin>
