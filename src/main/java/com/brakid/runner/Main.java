@@ -13,7 +13,7 @@ public class Main {
     private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws InterruptedException {
-        final Database database = new Database();
+        final Database database = Database.init();
         final User user1 = database.createUser("Test", "test@test.com");
         final User user2 = database.createUser("Test2", "me@test.com");
 
@@ -35,8 +35,9 @@ public class Main {
 
         final Database database2 = Database.load(json);
         ShoppingCart cart = database2.getShoppingCard(user2).getFirst();
-        LOGGER.info("Shoppingcarts for user1: {}", cart);
-        LOGGER.info("Resolved: {}", cart.getProducts(database.getProducts()));
+        LOGGER.info("Equals? {}", shoppingCart3.equals(cart));
+        LOGGER.info("Shopping cart for user2: {}", cart);
+        LOGGER.info("Resolved: {}", cart.getResolvedProducts(database.getProducts()));
 
         /*ExecutorService executor = newVirtualThreadPerTaskExecutor();
         CountDownLatch latch = new CountDownLatch(10);

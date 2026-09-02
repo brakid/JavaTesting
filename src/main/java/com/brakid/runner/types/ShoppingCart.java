@@ -1,41 +1,42 @@
 package com.brakid.runner.types;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.jackson.Jacksonized;
+import lombok.Value;
 
-@Data
-@Jacksonized
-@NoArgsConstructor
+@Value
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ShoppingCart {
-    @Setter(AccessLevel.NONE)
-    private long id;
-    @Setter(AccessLevel.NONE)
-    private User user;
-    @Setter(AccessLevel.NONE)
+    private final long id;
+    private final User user;
     @Getter(AccessLevel.NONE)
-    private Map<Long, Integer> products;
+    private final Map<Long, Integer> products;
 
-    public ShoppingCart(long id, User user) {
+    @JsonCreator
+    public ShoppingCart(
+            @JsonProperty("id") long id,
+            @JsonProperty("user") User user,
+            @JsonProperty("products") Map<Long, Integer> products) {
         this.id = id;
         this.user = user;
-        this.products = new HashMap<>();
+        this.products = products;
     }
 
-    public ImmutableMap<Product, Integer> getProducts(List<Product> products) {
+    public ImmutableMap<Long, Integer> getProducts() {
+        return ImmutableMap.copyOf(products);
+    }
+
+    public ImmutableMap<Product, Integer> getResolvedProducts(List<Product> products) {
         ImmutableMap<Long, Product> productsById = Maps.uniqueIndex(products, product -> product.id());
         return ImmutableMap.copyOf(
                 Maps.transformValues(

@@ -1,6 +1,7 @@
 package com.brakid.runner.storage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.brakid.runner.types.Product;
@@ -8,25 +9,32 @@ import com.brakid.runner.types.ShoppingCart;
 import com.brakid.runner.types.User;
 import static com.brakid.runner.utils.Utils.JSON_MAPPER;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.jackson.Jacksonized;
+import lombok.Value;
 
-@Data
-@Jacksonized
-@NoArgsConstructor
+@Value
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Database {
-    @Setter(AccessLevel.NONE)
-    private List<User> users = new ArrayList<>();
-    @Setter(AccessLevel.NONE)
-    private List<Product> products = new ArrayList<>();
-    @Setter(AccessLevel.NONE)
-    private List<ShoppingCart> shoppingCarts = new ArrayList<>();
+    private final List<User> users;
+    private final List<Product> products;
+    private final List<ShoppingCart> shoppingCarts;
+
+    @JsonCreator
+    public Database(
+            @JsonProperty("users") List<User> users,
+            @JsonProperty("products") List<Product> products,
+            @JsonProperty("shoppingCarts") List<ShoppingCart> shoppingCarts) {
+        this.users = users;
+        this.products = products;
+        this.shoppingCarts = shoppingCarts;
+    }
+
+    public static Database init() {
+        return new Database(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    }
 
     public static Database load(String json) {
         return JSON_MAPPER.readValue(json, Database.class);
@@ -49,7 +57,7 @@ public class Database {
     }
 
     public ShoppingCart createShoppingCart(User user) {
-        ShoppingCart shoppingCart = new ShoppingCart(shoppingCarts.size(), user);
+        ShoppingCart shoppingCart = new ShoppingCart(shoppingCarts.size(), user, new HashMap<>());
         shoppingCarts.add(shoppingCart);
         return shoppingCart;
     }
