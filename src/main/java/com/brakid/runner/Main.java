@@ -34,7 +34,7 @@ public class Main {
         LOGGER.info("JSON Serialized: {}", json);
 
         final Database database2 = Database.load(json);
-        ShoppingCart cart = database2.getShoppingCard(user2).getFirst();
+        ShoppingCart cart = database2.getShoppingCarts(user2).getFirst();
         LOGGER.info("Equals? {}", shoppingCart3.equals(cart));
         LOGGER.info("Shopping cart for user2: {}", cart);
         LOGGER.info("Resolved: {}", cart.getResolvedProducts(database.getProducts()));

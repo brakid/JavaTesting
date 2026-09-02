@@ -3,6 +3,7 @@ package com.brakid.runner.storage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import com.brakid.runner.types.Product;
 import com.brakid.runner.types.ShoppingCart;
@@ -50,10 +51,18 @@ public class Database {
         return user;
     }
 
+    public Optional<User> getUser(long id) {
+        return this.users.stream().filter(user -> user.id() == id).findFirst();
+    }
+
     public Product createProduct(String name, float price) {
         Product product = new Product(products.size(), name, price);
         products.add(product);
         return product;
+    }
+
+    public Optional<Product> getProduct(long id) {
+        return this.products.stream().filter(product -> product.id() == id).findFirst();
     }
 
     public ShoppingCart createShoppingCart(User user) {
@@ -62,10 +71,14 @@ public class Database {
         return shoppingCart;
     }
 
-    public ImmutableList<ShoppingCart> getShoppingCard(User user) {
+    public ImmutableList<ShoppingCart> getShoppingCarts(User user) {
         return ImmutableList.copyOf(
                 this.shoppingCarts.stream()
                         .filter(shoppingCart -> shoppingCart.getUser().equals(user))
                         .toList());
+    }
+
+    public Optional<ShoppingCart> getShoppingCart(long id) {
+        return this.shoppingCarts.stream().filter(shoppingCart -> shoppingCart.getId() == id).findFirst();
     }
 }
